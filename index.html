@@ -3,39 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Is It A Dry Day Today?</title>
-  <meta name="description" content="Find out instantly if today is a dry day based on your location. No fluff, just facts (and maybe a little sass)." />
+  <title>Is It A Dry Day Today? | Check Dry Day by Location</title>
+  <meta name="description" content="Instantly check if today is a dry day in your city or state. Covers all Indian states, Middle East, South Asia, Southeast Asia and more." />
+  <meta name="keywords" content="dry day today, is today a dry day, dry day india, dry day mumbai, dry day delhi, dry day 2025, alcohol ban today, liquor shop open today" />
+  <link rel="canonical" href="https://isitadrydaytoday.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://isitadrydaytoday.com/" />
   <meta property="og:title" content="Is It A Dry Day Today?" />
-  <meta property="og:description" content="The world's most important website." />
-  <meta property="og:url" content="https://isitadrydaytoday.com" />
+  <meta property="og:description" content="The world's most important website. Instantly check if alcohol is banned in your city today." />
   <meta name="twitter:card" content="summary_large_image" />
-
-  <!-- Fonts -->
+  <meta name="twitter:title" content="Is It A Dry Day Today?" />
+  <meta name="twitter:description" content="Instantly check if today is a dry day based on your location." />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Is It A Dry Day Today?","url":"https://isitadrydaytoday.com","description":"Check if today is a government-mandated dry day based on your location.","applicationCategory":"UtilityApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0"}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- TOP AD BANNER -->
-  <div class="ad-banner ad-top" id="adTop">
+  <div class="ad-banner ad-top">
     <span class="ad-label">Advertisement</span>
-    <!-- Replace with your ad network code -->
-    <div class="ad-placeholder">
-      <span>Your Ad Here — 728×90</span>
-    </div>
+    <div class="ad-placeholder"><span>728×90 — Replace with your ad code</span></div>
   </div>
 
   <div class="site-wrapper">
 
-    <!-- HEADER -->
     <header class="site-header">
       <div class="logo">
         <span class="logo-main">isita</span><span class="logo-accent">dryday</span><span class="logo-main">today</span><span class="logo-dot">.com</span>
       </div>
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
         <span class="toggle-track">
           <span class="toggle-thumb"></span>
           <span class="toggle-icon sun">☀</span>
@@ -44,124 +43,153 @@
       </button>
     </header>
 
-    <!-- MAIN CONTENT -->
     <main class="main-content">
-
-      <!-- HERO SECTION -->
       <section class="hero">
         <div class="hero-eyebrow">The question you woke up asking.</div>
 
-        <!-- LOADING STATE -->
+        <!-- LOADING -->
         <div class="state" id="stateLoading">
-          <div class="answer-word loading-word">
-            <span>Checking...</span>
-          </div>
+          <div class="answer-word loading-word"><span>Checking...</span></div>
           <p class="subtext loading-text">Consulting the ancient scrolls of local alcohol law…</p>
         </div>
 
         <!-- PERMISSION DENIED -->
         <div class="state hidden" id="statePermission">
-          <div class="answer-word answer-unknown">
-            <span>How&nbsp;Dare</span>
-            <span>You.</span>
-          </div>
-          <p class="subtext">You denied location access. How are we supposed to help you drink responsibly if you won't tell us where you are? Try again, or enter your city below.</p>
+          <div class="answer-word answer-unknown"><span>How&nbsp;Dare</span><span>You.</span></div>
+          <p class="subtext">You denied location access. How are we supposed to help? Enter your city below.</p>
           <div class="manual-input">
-            <input type="text" id="cityInput" placeholder="Type your city…" autocomplete="off" spellcheck="false" />
+            <input type="text" id="cityInput" placeholder="e.g. Mumbai, Maharashtra…" autocomplete="off" />
             <button id="citySubmit">Go</button>
           </div>
         </div>
 
-        <!-- DRY DAY — YES -->
+        <!-- DRY DAY YES -->
         <div class="state hidden" id="stateDry">
-          <div class="answer-word answer-yes">
-            <span>YES.</span>
+          <div class="share-card" id="shareCard">
+            <div class="share-card-inner">
+              <div class="share-card-badge">isitadrydaytoday.com</div>
+              <div class="answer-word answer-yes"><span>YES.</span></div>
+              <p class="location-tag" id="locationTagDry"></p>
+              <p class="subtext" id="subtextDry"></p>
+              <p class="dry-note" id="dryNote"></p>
+            </div>
           </div>
-          <p class="location-tag" id="locationTagDry"></p>
-          <p class="subtext" id="subtextDry"></p>
-          <p class="dry-note" id="dryNote"></p>
+          <div class="crowdsource-bar">
+            <span class="crowd-count" id="crowdCountDry"></span>
+            <button class="crowd-btn" id="confirmDryBtn">✓ Confirm — it's dry today</button>
+          </div>
         </div>
 
-        <!-- NOT A DRY DAY — NO -->
+        <!-- NOT DRY -->
         <div class="state hidden" id="stateNotDry">
-          <div class="answer-word answer-no">
-            <span>NOPE.</span>
+          <div class="share-card" id="shareCardNo">
+            <div class="share-card-inner">
+              <div class="share-card-badge">isitadrydaytoday.com</div>
+              <div class="answer-word answer-no"><span>NOPE.</span></div>
+              <p class="location-tag" id="locationTagNotDry"></p>
+              <p class="subtext" id="subtextNotDry"></p>
+            </div>
           </div>
-          <p class="location-tag" id="locationTagNotDry"></p>
-          <p class="subtext" id="subtextNotDry"></p>
+          <div class="crowdsource-bar">
+            <span class="crowd-count" id="crowdCountNotDry"></span>
+            <button class="crowd-btn crowd-btn-warn" id="reportDryBtn">⚠ Report — it's actually dry</button>
+          </div>
         </div>
 
         <!-- ERROR -->
         <div class="state hidden" id="stateError">
-          <div class="answer-word answer-unknown">
-            <span>¯\_(ツ)_/¯</span>
-          </div>
-          <p class="subtext">Something went sideways. The internet gods are frowning upon you today. Try refreshing, or maybe just don't drink today to be safe.</p>
+          <div class="answer-word answer-unknown"><span>¯\_(ツ)_/¯</span></div>
+          <p class="subtext">Something went sideways. Try entering your city below.</p>
           <div class="manual-input">
-            <input type="text" id="cityInputError" placeholder="Type your city…" autocomplete="off" spellcheck="false" />
+            <input type="text" id="cityInputError" placeholder="e.g. Dubai, UAE…" autocomplete="off" />
             <button id="citySubmitError">Go</button>
           </div>
         </div>
 
       </section>
 
-      <!-- DATE PILL -->
-      <div class="date-pill" id="datePill"></div>
+      <!-- ACTION ROW -->
+      <div class="action-row">
+        <div class="date-pill" id="datePill"></div>
+        <div class="share-actions hidden" id="shareActions">
+          <button class="share-btn btn-whatsapp" id="btnWhatsapp">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </button>
+          <button class="share-btn btn-twitter" id="btnTwitter">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            Post
+          </button>
+          <button class="share-btn btn-image" id="btnImage">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Save Image
+          </button>
+        </div>
+      </div>
 
-      <!-- INFO STRIP -->
+      <p class="crowd-disclaimer hidden" id="crowdDisclaimer">
+        ⚠ Crowdsourced reports are user-submitted and unverified. Always confirm with local authorities before making plans.
+      </p>
+
+      <div class="ad-banner ad-middle">
+        <span class="ad-label">Advertisement</span>
+        <div class="ad-placeholder"><span>468×60 — Replace with your ad code</span></div>
+      </div>
+
+      <!-- SEO + STATE GRID -->
+      <section class="seo-section">
+        <h1 class="seo-title">Is Today a Dry Day?</h1>
+        <div class="seo-body">
+          <p>A <strong>dry day</strong> is a government-mandated day when the sale of alcohol is completely prohibited. In <strong>India</strong>, dry days are observed on national holidays — Republic Day (Jan 26), Independence Day (Aug 15), and Gandhi Jayanti (Oct 2) — plus additional state-specific observances. States like <strong>Gujarat, Bihar, Nagaland, Mizoram, and Manipur</strong> enforce year-round prohibition.</p>
+          <p>Across the <strong>Middle East</strong>, dry days coincide with Ramadan and Islamic holidays. <strong>Pakistan, Bangladesh, and the Maldives</strong> enforce near-total prohibition. In <strong>Southeast Asia</strong>, Thailand restricts alcohol on Buddhist holidays. Even in parts of the <strong>US</strong>, dry county laws persist.</p>
+          <p>We check your location against known dry day schedules, a live override database (updated manually for last-minute announcements), and crowdsourced user reports — so you always get the freshest answer possible.</p>
+        </div>
+        <div class="state-grid-section">
+          <h2 class="state-grid-title">Indian States &amp; Dry Day Status</h2>
+          <div class="state-grid" id="stateGrid"></div>
+        </div>
+      </section>
+
       <section class="info-strip">
         <div class="info-card">
           <div class="info-icon">🗓</div>
           <div class="info-text">
             <strong>What's a dry day?</strong>
-            <span>A legally mandated day when alcohol cannot be sold — often tied to elections, national holidays, or religious observances.</span>
+            <span>A legally mandated day when alcohol cannot be sold — tied to elections, national holidays, or religious observances.</span>
           </div>
         </div>
         <div class="info-card">
           <div class="info-icon">📍</div>
           <div class="info-text">
             <strong>Location-based</strong>
-            <span>Dry day rules vary wildly by country, state, and even city. We do our best. Laws change. We're not lawyers.</span>
+            <span>Rules vary by country, state, and city. We combine your GPS, live data, and crowdsourced reports.</span>
           </div>
         </div>
         <div class="info-card">
           <div class="info-icon">⚠️</div>
           <div class="info-text">
             <strong>Always verify</strong>
-            <span>This is for entertainment. Don't blame us if you show up to a closed liquor store. Always double-check local regulations.</span>
+            <span>This is informational only. Check local regulations, especially for election dry days announced at short notice.</span>
           </div>
         </div>
       </section>
-
     </main>
 
-    <!-- MIDDLE AD BANNER -->
-    <div class="ad-banner ad-middle">
-      <span class="ad-label">Advertisement</span>
-      <div class="ad-placeholder">
-        <span>Your Ad Here — 320×100</span>
-      </div>
-    </div>
-
-    <!-- FOOTER -->
     <footer class="site-footer">
-      <p class="footer-disclaimer">
-        <em>isitadrydaytoday.com</em> is a satire/informational project. Dry day data is based on publicly known legislation and may not reflect last-minute government orders. We are not responsible for any dry-mouthed disappointments. Drink responsibly. Or don't drink at all — we're a website, not your mom.
-      </p>
+      <p class="footer-disclaimer"><em>isitadrydaytoday.com</em> is an informational project. Data is based on publicly known legislation and crowdsourced reports — it may not reflect last-minute government orders. We are not responsible for dry-mouthed disappointments. Drink responsibly.</p>
       <p class="footer-copy">© <span id="footerYear"></span> isitadrydaytoday.com — Made with questionable sobriety.</p>
     </footer>
-
   </div>
 
-  <!-- BOTTOM AD BANNER (sticky mobile) -->
   <div class="ad-banner ad-sticky" id="adSticky">
     <span class="ad-label">Advertisement</span>
-    <div class="ad-placeholder">
-      <span>320×50 Mobile Banner</span>
-    </div>
+    <div class="ad-placeholder"><span>320×50 — Replace with your ad code</span></div>
     <button class="ad-close" id="adClose" aria-label="Close ad">✕</button>
   </div>
 
+  <div class="toast" id="toast"></div>
+
+  <script src="data.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
