@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Is It A Dry Day Today?</title>
+  <meta name="description" content="Find out instantly if today is a dry day based on your location. No fluff, just facts (and maybe a little sass)." />
+  <meta property="og:title" content="Is It A Dry Day Today?" />
+  <meta property="og:description" content="The world's most important website." />
+  <meta property="og:url" content="https://isitadrydaytoday.com" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- TOP AD BANNER -->
+  <div class="ad-banner ad-top" id="adTop">
+    <span class="ad-label">Advertisement</span>
+    <!-- Replace with your ad network code -->
+    <div class="ad-placeholder">
+      <span>Your Ad Here — 728×90</span>
+    </div>
+  </div>
+
+  <div class="site-wrapper">
+
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="logo">
+        <span class="logo-main">isita</span><span class="logo-accent">dryday</span><span class="logo-main">today</span><span class="logo-dot">.com</span>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+        <span class="toggle-track">
+          <span class="toggle-thumb"></span>
+          <span class="toggle-icon sun">☀</span>
+          <span class="toggle-icon moon">☽</span>
+        </span>
+      </button>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- HERO SECTION -->
+      <section class="hero">
+        <div class="hero-eyebrow">The question you woke up asking.</div>
+
+        <!-- LOADING STATE -->
+        <div class="state" id="stateLoading">
+          <div class="answer-word loading-word">
+            <span>Checking...</span>
+          </div>
+          <p class="subtext loading-text">Consulting the ancient scrolls of local alcohol law…</p>
+        </div>
+
+        <!-- PERMISSION DENIED -->
+        <div class="state hidden" id="statePermission">
+          <div class="answer-word answer-unknown">
+            <span>How&nbsp;Dare</span>
+            <span>You.</span>
+          </div>
+          <p class="subtext">You denied location access. How are we supposed to help you drink responsibly if you won't tell us where you are? Try again, or enter your city below.</p>
+          <div class="manual-input">
+            <input type="text" id="cityInput" placeholder="Type your city…" autocomplete="off" spellcheck="false" />
+            <button id="citySubmit">Go</button>
+          </div>
+        </div>
+
+        <!-- DRY DAY — YES -->
+        <div class="state hidden" id="stateDry">
+          <div class="answer-word answer-yes">
+            <span>YES.</span>
+          </div>
+          <p class="location-tag" id="locationTagDry"></p>
+          <p class="subtext" id="subtextDry"></p>
+          <p class="dry-note" id="dryNote"></p>
+        </div>
+
+        <!-- NOT A DRY DAY — NO -->
+        <div class="state hidden" id="stateNotDry">
+          <div class="answer-word answer-no">
+            <span>NOPE.</span>
+          </div>
+          <p class="location-tag" id="locationTagNotDry"></p>
+          <p class="subtext" id="subtextNotDry"></p>
+        </div>
+
+        <!-- ERROR -->
+        <div class="state hidden" id="stateError">
+          <div class="answer-word answer-unknown">
+            <span>¯\_(ツ)_/¯</span>
+          </div>
+          <p class="subtext">Something went sideways. The internet gods are frowning upon you today. Try refreshing, or maybe just don't drink today to be safe.</p>
+          <div class="manual-input">
+            <input type="text" id="cityInputError" placeholder="Type your city…" autocomplete="off" spellcheck="false" />
+            <button id="citySubmitError">Go</button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- DATE PILL -->
+      <div class="date-pill" id="datePill"></div>
+
+      <!-- INFO STRIP -->
+      <section class="info-strip">
+        <div class="info-card">
+          <div class="info-icon">🗓</div>
+          <div class="info-text">
+            <strong>What's a dry day?</strong>
+            <span>A legally mandated day when alcohol cannot be sold — often tied to elections, national holidays, or religious observances.</span>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">📍</div>
+          <div class="info-text">
+            <strong>Location-based</strong>
+            <span>Dry day rules vary wildly by country, state, and even city. We do our best. Laws change. We're not lawyers.</span>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">⚠️</div>
+          <div class="info-text">
+            <strong>Always verify</strong>
+            <span>This is for entertainment. Don't blame us if you show up to a closed liquor store. Always double-check local regulations.</span>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- MIDDLE AD BANNER -->
+    <div class="ad-banner ad-middle">
+      <span class="ad-label">Advertisement</span>
+      <div class="ad-placeholder">
+        <span>Your Ad Here — 320×100</span>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <p class="footer-disclaimer">
+        <em>isitadrydaytoday.com</em> is a satire/informational project. Dry day data is based on publicly known legislation and may not reflect last-minute government orders. We are not responsible for any dry-mouthed disappointments. Drink responsibly. Or don't drink at all — we're a website, not your mom.
+      </p>
+      <p class="footer-copy">© <span id="footerYear"></span> isitadrydaytoday.com — Made with questionable sobriety.</p>
+    </footer>
+
+  </div>
+
+  <!-- BOTTOM AD BANNER (sticky mobile) -->
+  <div class="ad-banner ad-sticky" id="adSticky">
+    <span class="ad-label">Advertisement</span>
+    <div class="ad-placeholder">
+      <span>320×50 Mobile Banner</span>
+    </div>
+    <button class="ad-close" id="adClose" aria-label="Close ad">✕</button>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
