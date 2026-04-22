@@ -71,12 +71,12 @@
               <div class="answer-word answer-yes"><span>YES.</span></div>
               <p class="location-tag" id="locationTagDry"></p>
               <p class="subtext" id="subtextDry"></p>
-              <p class="dry-note" id="dryNote"></p>
+              <div class="dry-note" id="dryNoteWrap"><span id="dryNote"></span></div>
             </div>
           </div>
           <div class="crowdsource-bar">
             <span class="crowd-count" id="crowdCountDry"></span>
-            <button class="crowd-btn" id="confirmDryBtn">✓ Confirm — it's dry today</button>
+            <button class="crowd-btn" id="confirmDryBtn">Confirm it is dry today</button>
           </div>
         </div>
 
@@ -88,11 +88,12 @@
               <div class="answer-word answer-no"><span>NOPE.</span></div>
               <p class="location-tag" id="locationTagNotDry"></p>
               <p class="subtext" id="subtextNotDry"></p>
+              <div id="notDrySourceWrap"></div>
             </div>
           </div>
           <div class="crowdsource-bar">
             <span class="crowd-count" id="crowdCountNotDry"></span>
-            <button class="crowd-btn crowd-btn-warn" id="reportDryBtn">⚠ Report — it's actually dry</button>
+            <button class="crowd-btn crowd-btn-warn" id="reportDryBtn">Report it is actually dry</button>
           </div>
         </div>
 
