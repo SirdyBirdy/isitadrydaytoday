@@ -182,7 +182,7 @@ function renderResult(isDry, note, locationLabel, locationKey, dateStr, source, 
   var sourceBadge = "";
   if (source === "sheet")  { sourceBadge = '<span class="source-badge source-live">LIVE</span>'; }
   if (source === "crowd")  { sourceBadge = '<span class="source-badge source-crowd">CROWD REPORT</span>'; }
-  if (source === "static") { sourceBadge = '<span class="source-badge source-static">STATIC DATA</span>'; }
+  // Static badge only shown on dry results — on not-dry it's just clutter
 
   if (isDry) {
     showState("stateDry");
