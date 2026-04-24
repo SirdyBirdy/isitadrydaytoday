@@ -19,7 +19,7 @@
 
 # Redirect www to non-www
 [[redirects]]
-  from = "https://www.isitadrydaytoday.com/*"
-  to = "https://isitadrydaytoday.com/:splat"
+  from = "https://www.isitadrydaytoday.lol/*"
+  to = "https://isitadrydaytoday.lol/:splat"
   status = 301
   force = true
