@@ -1,25 +1,21 @@
 /* ============================================
-   IS IT A DRY DAY TODAY — APP v3
+   IS IT A DRY DAY TODAY — APP v4
    Priority order:
    1. Google Sheet (live overrides by owner)
    2. Crowdsource reports (with disclaimer)
    3. Static rules (fallback)
+
+   Key change from v3:
+   - Ads are only initialised AFTER content renders
+   - No sticky ad unit (removed for AdSense compliance)
    ============================================ */
 
 // ================================================================
 // CONFIG — fill these in after setting up your Google Sheet
 // ================================================================
 var CONFIG = {
-  // Publish Tab 1 of your sheet as CSV and paste URL here.
-  // Tab columns: COUNTRY, STATE, DATE (YYYY-MM-DD or *), IS_DRY (TRUE/FALSE), NOTE
   OVERRIDE_SHEET_URL: "",
-
-  // Publish Tab 2 of your sheet as CSV and paste URL here.
-  // Tab columns: LOCATION_KEY, DATE, DRY_COUNT, NOT_DRY_COUNT
   COUNT_SHEET_URL: "",
-
-  // Google Form response URL and entry field IDs for crowdsource submissions.
-  // Leave blank to show the button but skip actual posting.
   CROWDSOURCE_FORM_URL: "",
   FIELD_LOCATION: "entry.000000001",
   FIELD_IS_DRY:   "entry.000000002",
@@ -30,6 +26,28 @@ var CONFIG = {
 var currentLocationKey   = "";
 var currentLocationLabel = "";
 var currentIsDry         = null;
+var adsInitialised       = false;
+
+// ---- AD INIT — called once after content is visible ----
+function initAds() {
+  if (adsInitialised) { return; }
+  adsInitialised = true;
+
+  var middle = document.getElementById("adMiddle");
+  var bottom = document.getElementById("adBottom");
+
+  if (middle) {
+    middle.classList.remove("hidden");
+    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
+  }
+  // Slight delay on second slot so they don't fire simultaneously
+  setTimeout(function() {
+    if (bottom) {
+      bottom.classList.remove("hidden");
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
+    }
+  }, 800);
+}
 
 // ---- UI HELPERS ----
 function showState(id) {
@@ -182,7 +200,6 @@ function renderResult(isDry, note, locationLabel, locationKey, dateStr, source, 
   var sourceBadge = "";
   if (source === "sheet")  { sourceBadge = '<span class="source-badge source-live">LIVE</span>'; }
   if (source === "crowd")  { sourceBadge = '<span class="source-badge source-crowd">CROWD REPORT</span>'; }
-  // Static badge only shown on dry results — on not-dry it's just clutter
 
   if (isDry) {
     showState("stateDry");
@@ -212,6 +229,9 @@ function renderResult(isDry, note, locationLabel, locationKey, dateStr, source, 
 
   wireShareButtons(isDry, locationLabel, dateStr);
   wireCrowdsourceButtons(locationKey, isDry, dateStr);
+
+  // *** Initialise ads now that content is visible ***
+  initAds();
 }
 
 // ---- PROCESS LOCATION ----
@@ -219,21 +239,17 @@ function processLocation(countryCode, stateCode, locationLabel, locationKey) {
   var today   = new Date();
   var dateStr = toDateStr(today);
 
-  // Step 1: Google Sheet override
   fetchOverride(locationKey, dateStr).then(function(override) {
     if (override !== null) {
       renderResult(override.isDry, override.note, locationLabel, locationKey, dateStr, "sheet", null);
       return;
     }
 
-    // Step 2: Static rule
-    var rule       = getDryDayRule(countryCode, stateCode);
+    var rule        = getDryDayRule(countryCode, stateCode);
     var staticIsDry = rule ? rule.check(today) : null;
     var staticNote  = rule ? rule.note : "We don't have dry day data for your exact location. Check locally.";
 
-    // If static says NOT dry, still check crowd counts for possible override
     fetchCrowdCounts(locationKey, dateStr).then(function(counts) {
-      // Crowd override threshold: 5+ reports saying dry when static says not dry
       var crowdSaysDry = counts && counts.dryCount >= 5 && counts.dryCount > (counts.notDryCount * 2);
 
       if (crowdSaysDry && staticIsDry === false) {
@@ -242,15 +258,15 @@ function processLocation(countryCode, stateCode, locationLabel, locationKey) {
         return;
       }
 
-      // Normal static result
       if (staticIsDry === null) {
         showState("stateError");
+        // Still init ads — error screen has real content around it
+        initAds();
         return;
       }
 
       renderResult(staticIsDry, staticNote, locationLabel, locationKey, dateStr, "static", null);
 
-      // Also show crowd count info even when static rule applied
       if (counts) {
         if (staticIsDry && counts.dryCount > 0) {
           setText("crowdCountDry", counts.dryCount + " people also confirmed it is dry today");
@@ -335,7 +351,7 @@ function saveAsImage() {
 function reverseGeocode(lat, lon) {
   return fetch(
     "https://nominatim.openstreetmap.org/reverse?lat=" + lat + "&lon=" + lon + "&format=json&accept-language=en",
-    { headers: { "User-Agent": "isitadrydaytoday.lol/3.0" } }
+    { headers: { "User-Agent": "isitadrydaytoday.lol/4.0" } }
   ).then(function(r) { return r.json(); });
 }
 
@@ -409,7 +425,7 @@ function searchCity(query) {
   showState("stateLoading");
   fetch(
     "https://nominatim.openstreetmap.org/search?q=" + encodeURIComponent(query) + "&format=json&limit=1&accept-language=en",
-    { headers: { "User-Agent": "isitadrydaytoday.lol/3.0" } }
+    { headers: { "User-Agent": "isitadrydaytoday.lol/4.0" } }
   )
     .then(function(r) { return r.json(); })
     .then(function(data) {
@@ -420,7 +436,10 @@ function searchCity(query) {
       var codes = extractCodes(geo);
       processLocation(codes.countryCode, codes.stateCode, codes.locationLabel, codes.locationKey);
     })
-    .catch(function() { showState("stateError"); });
+    .catch(function() {
+      showState("stateError");
+      initAds();
+    });
 }
 
 function bindInput(inputId, btnId) {
@@ -471,7 +490,7 @@ function initTheme() {
 function init() {
   initTheme();
 
-  var today   = new Date();
+  var today    = new Date();
   var datePill = document.getElementById("datePill");
   if (datePill) {
     datePill.textContent = today.toLocaleDateString("en-IN", {
@@ -485,19 +504,13 @@ function init() {
   bindInput("cityInput",      "citySubmit");
   bindInput("cityInputError", "citySubmitError");
 
-  var adClose = document.getElementById("adClose");
-  if (adClose) {
-    adClose.onclick = function() {
-      var sticky = document.getElementById("adSticky");
-      if (sticky) { sticky.remove(); }
-      document.body.style.paddingBottom = "0";
-    };
-  }
-
   buildStateGrid();
 
+  // Permission state: user denied — show city input immediately and init ads
+  // (page has plenty of static content visible)
   if (!navigator.geolocation) {
     showState("statePermission");
+    initAds();
     return;
   }
 
@@ -510,11 +523,19 @@ function init() {
           var codes = extractCodes(geo);
           processLocation(codes.countryCode, codes.stateCode, codes.locationLabel, codes.locationKey);
         })
-        .catch(function() { showState("stateError"); });
+        .catch(function() {
+          showState("stateError");
+          initAds();
+        });
     },
     function(err) {
-      if (err.code === 1) { showState("statePermission"); }
-      else { showState("stateError"); }
+      if (err.code === 1) {
+        showState("statePermission");
+      } else {
+        showState("stateError");
+      }
+      // Init ads on permission deny — SEO content below is fully visible
+      initAds();
     },
     { timeout: 8000, maximumAge: 300000 }
   );
