@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Is It A Dry Day Today?</title>
+  <meta name="description" content="Who runs isitadrydaytoday.lol and how the dry day data is put together." />
+  <link rel="canonical" href="https://isitadrydaytoday.lol/about.html" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <meta name="theme-color" content="#C8420A" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="site-wrapper">
+    <header class="site-header">
+      <div class="logo">
+        <a href="index.html"><span class="logo-main">isita</span><span class="logo-accent">dryday</span><span class="logo-main">today</span><span class="logo-dot">.lol</span></a>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <section class="page-content">
+        <h1 class="page-title">About This Site</h1>
+
+        <p>isitadrydaytoday.lol is a small, independently run tool that answers one question: is alcohol legally on sale where you are, right now. [Replace this paragraph with a couple of sentences about who you are / why you built it — e.g. "Built by Armeet, a developer based in Pune, after one too many failed liquor store trips."]</p>
+
+        <h2>How the data works</h2>
+        <p>Answers are drawn from three layers, in priority order: a live override sheet for recently announced changes (like election dry days), crowdsourced reports from visitors, and a static rules database covering national holidays, state-specific dry days, and country-level alcohol law for India, the Middle East, South and Southeast Asia, and beyond.</p>
+        <p>The static rules are compiled from publicly available government notifications and excise department publications. Lunar-calendar-based dates (such as Thailand's Buddhist holy days) are reconfirmed and updated each year.</p>
+
+        <h2>Limitations</h2>
+        <p>This is an informational tool, not a legal reference. Local enforcement can vary, and last-minute government orders — especially election-related dry days — may not always be reflected in time. Always check with your local store or municipal authority before making plans.</p>
+
+        <h2>Get in touch</h2>
+        <p>Questions, corrections, or a dry day we've got wrong? See the <a href="contact.html">Contact</a> page.</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <nav class="footer-nav">
+        <a href="about.html">About</a>
+        <span class="footer-sep">&middot;</span>
+        <a href="privacy.html">Privacy Policy</a>
+        <span class="footer-sep">&middot;</span>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <p class="footer-copy">&#169; <span id="footerYear"></span> isitadrydaytoday.lol</p>
+    </footer>
+  </div>
+  <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
+</body>
+</html>
