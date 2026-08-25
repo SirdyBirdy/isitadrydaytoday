@@ -296,11 +296,12 @@ var DRY_DAY_RULES = [
     check:function(d){
       var m = d.getMonth() + 1;
       var day = d.getDate();
-      // Fixed restricted dates (Buddhist holidays vary — use override sheet for annual updates)
-      var restricted = [[1,1],[4,6],[4,13],[4,14],[4,15],[7,28],[10,13],[12,5]];
+      // 2026 confirmed dates for Thailand's 5 statutory alcohol-ban days (lunar calendar — reconfirm each year):
+      // Makha Bucha Mar 3, Visakha Bucha May 31, Asarnha Bucha Jul 29, Khao Phansa Jul 30, Ok Phansa Oct 26
+      var restricted = [[3,3],[5,31],[7,29],[7,30],[10,26]];
       return restricted.some(function(r){ return r[0]===m && r[1]===day; });
     },
-    note:"Thailand bans alcohol on Buddhist holidays and certain national holidays. Dates vary annually by lunar calendar — use the override sheet for annual updates. Songkran (Apr 13-15) is often dry." },
+    note:"Thailand bans alcohol nationwide on its five Buddhist holy days: Makha Bucha, Visakha Bucha, Asarnha Bucha, Khao Phansa, and Ok Phansa. Dates shift yearly with the lunar calendar — reconfirm annually or set via the override sheet. Songkran (mid-April) is not an official nationwide ban day, though some venues restrict sales locally." },
   { country:"MY", stateLabel:"Malaysia",
     check:function(){ return false; },
     note:"Malaysia permits alcohol in non-Muslim venues. Kelantan and Terengganu are stricter. Not a national dry day today." },
