@@ -1,5 +1,5 @@
 /* ============================================
-   IS IT A DRY DAY TODAY? — STYLES v3
+   IS IT A DRY DAY TODAY? — STYLES v4
    ============================================ */
 
 :root {
@@ -89,6 +89,7 @@ body {
   padding: 26px 0 20px; border-bottom: 1px solid var(--border);
 }
 .logo { font-size: 13px; letter-spacing: 0.08em; font-weight: 400; }
+.logo a { text-decoration: none; }
 .logo-main { color: var(--fg); }
 .logo-accent { color: var(--accent); }
 .logo-dot { color: var(--fg-muted); }
@@ -394,29 +395,21 @@ body {
   font-size: 13px; color: var(--fg-muted); line-height: 1.5;
 }
 
-/* ---- SISTER SITES ---- */
-.sister-sites {
-  border-top: 1px solid var(--border);
-  padding: 24px 0;
-}
-.sister-label {
-  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--fg-muted); opacity: 0.5; margin-bottom: 10px;
-}
-.sister-links { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-.sister-link {
-  font-size: 12px; color: var(--fg-muted); text-decoration: none;
-  border-bottom: 1px solid var(--border); padding-bottom: 1px;
-  transition: color var(--tr), border-color var(--tr);
-}
-.sister-link:hover { color: var(--accent); border-color: var(--accent); }
-.sister-sep { color: var(--border); font-size: 14px; }
-
 /* ---- FOOTER ---- */
 .site-footer {
   border-top: 1px solid var(--border);
-  padding: 24px 0 40px; display: flex; flex-direction: column; gap: 8px;
+  padding: 24px 0 40px; display: flex; flex-direction: column; gap: 12px;
 }
+.footer-nav {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+}
+.footer-nav a {
+  font-size: 12px; letter-spacing: 0.05em; color: var(--fg-muted);
+  text-decoration: none; border-bottom: 1px solid var(--border);
+  padding-bottom: 1px; transition: color var(--tr), border-color var(--tr);
+}
+.footer-nav a:hover { color: var(--accent); border-color: var(--accent); }
+.footer-sep { color: var(--border); font-size: 14px; }
 .footer-disclaimer {
   font-family: var(--font-serif); font-style: italic;
   font-size: 12px; color: var(--fg-muted); line-height: 1.7; opacity: 0.65;
@@ -457,6 +450,34 @@ body {
   margin-bottom: 20px; max-width: 560px;
 }
 #crowdDisclaimer strong { color: #c8930a; }
+
+/* ---- STATIC INFO PAGES (about / privacy / contact) ---- */
+.page-content { padding: 8px 0 40px; border-top: 1px solid var(--border); }
+.page-title {
+  font-family: var(--font-display); font-size: clamp(28px, 7vw, 44px);
+  letter-spacing: 0.02em; color: var(--fg); margin-bottom: 24px;
+}
+.page-content h2 {
+  font-family: var(--font-body); font-weight: 400;
+  font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--fg); margin: 28px 0 10px;
+}
+.page-content p {
+  font-family: var(--font-serif); font-style: italic;
+  font-size: 15px; color: var(--fg-muted); line-height: 1.75;
+  max-width: 600px; margin-bottom: 12px;
+}
+.page-content a { color: var(--accent); }
+.page-content ul { margin: 8px 0 16px 20px; }
+.page-content li {
+  font-family: var(--font-serif); font-style: italic;
+  font-size: 15px; color: var(--fg-muted); line-height: 1.75;
+  max-width: 580px; margin-bottom: 6px;
+}
+.page-updated {
+  font-size: 11px; color: var(--fg-muted); opacity: 0.6;
+  letter-spacing: 0.05em; margin-bottom: 24px;
+}
 
 /* ---- DESKTOP ---- */
 @media (min-width: 640px) {
