@@ -29,8 +29,18 @@ var currentIsDry         = null;
 var adsInitialised       = false;
 
 // ---- AD INIT — called once after content is visible ----
+function adSlotsConfigured() {
+  var slots = document.querySelectorAll(".adsbygoogle");
+  if (!slots.length) { return false; }
+  for (var i = 0; i < slots.length; i++) {
+    if (!/^\d+$/.test(slots[i].getAttribute("data-ad-slot") || "")) { return false; }
+  }
+  return true;
+}
+
 function initAds() {
-  if (adsInitialised) { return; }
+  // Ad boxes stay hidden until real slot IDs are in index.html
+  if (adsInitialised || !adSlotsConfigured()) { return; }
   adsInitialised = true;
 
   var middle = document.getElementById("adMiddle");
@@ -156,6 +166,7 @@ function fetchCrowdCounts(locationKey, dateStr) {
 // ---- SUBMIT CROWDSOURCE ----
 function submitCrowdsource(locationKey, isDry, dateStr) {
   var key = "cs_" + locationKey + "_" + dateStr;
+  track("crowd_report", { location: locationKey });
   if (localStorage.getItem(key)) {
     showToast("You already reported for today. Thanks!");
     return;
@@ -227,6 +238,7 @@ function renderResult(isDry, note, locationLabel, locationKey, dateStr, source, 
     showCrowdDisclaimer(crowdOverride.dryCount);
   }
 
+  track("dry_check", { result: isDry ? "dry" : "not_dry", location: locationKey, source: source });
   wireShareButtons(isDry, locationLabel, dateStr);
   wireCrowdsourceButtons(locationKey, isDry, dateStr);
 
@@ -299,16 +311,18 @@ function wireShareButtons(isDry, locationLabel, dateStr) {
 
   if (wa) {
     wa.onclick = function() {
+      track("share", { method: "whatsapp" });
       window.open("https://wa.me/?text=" + encodeURIComponent(msg + "\n" + siteUrl), "_blank");
     };
   }
   if (tw) {
     tw.onclick = function() {
+      track("share", { method: "x" });
       window.open("https://x.com/intent/tweet?text=" + encodeURIComponent(msg) + "&url=" + encodeURIComponent(siteUrl), "_blank");
     };
   }
   if (im) {
-    im.onclick = function() { saveAsImage(); };
+    im.onclick = function() { track("share", { method: "image" }); saveAsImage(); };
   }
 }
 
@@ -422,6 +436,7 @@ function extractCodes(geo) {
 // ---- CITY SEARCH ----
 function searchCity(query) {
   if (!query.trim()) { return; }
+  track("city_search");
   showState("stateLoading");
   fetch(
     "https://nominatim.openstreetmap.org/search?q=" + encodeURIComponent(query) + "&format=json&limit=1&accept-language=en",
@@ -505,6 +520,12 @@ function init() {
   bindInput("cityInputError", "citySubmitError");
 
   buildStateGrid();
+
+  // Crowd reporting is not wired to a form yet, so don't show dead buttons
+  if (!CONFIG.CROWDSOURCE_FORM_URL) {
+    var bars = document.querySelectorAll(".crowdsource-bar");
+    for (var b = 0; b < bars.length; b++) { bars[b].classList.add("hidden"); }
+  }
 
   // Permission state: user denied — show city input immediately and init ads
   // (page has plenty of static content visible)
