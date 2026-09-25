@@ -1,6 +1,6 @@
 /* Google Analytics 4. Set your Measurement ID below (Admin > Data streams > Web). */
 (function () {
-  var GA_ID = "G-XXXXXXXXXX";
+  var GA_ID = "G-EDWJXN87M1";
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = function () { window.dataLayer.push(arguments); };
